@@ -16,6 +16,10 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        ndk {
+            // Filter for architectures supported by Flutter
+            abiFilters += listOf("armeabi-v7a", "arm64-v8a", "x86_64")
+        }
     }
 
     buildTypes {
@@ -26,13 +30,19 @@ android {
                 "proguard-rules.pro"
             )
         }
+        debug {
+
+        }
+        create("profile") {
+            initWith(getByName("debug"))
+        }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = "11"
+        jvmTarget = "17"
     }
     buildFeatures {
         compose = true
@@ -56,4 +66,12 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+    debugImplementation("com.example.movies_module:flutter_debug:1.0")
+    releaseImplementation("com.example.movies_module:flutter_release:1.0")
+    add("profileImplementation", "com.example.movies_module:flutter_profile:1.0")
+}
+
+configurations {
+    getByName("profileImplementation") {
+    }
 }
