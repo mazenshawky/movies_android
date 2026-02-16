@@ -1,11 +1,13 @@
 package com.example.moviesandroid
 
+import io.flutter.embedding.android.FlutterActivity;
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Button
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -20,9 +22,13 @@ class MainActivity : ComponentActivity() {
         setContent {
             MoviesAndroidTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
+                    MyButton(
+                        onClick = {
+                            startActivity(
+                                FlutterActivity.createDefaultIntent(this)
+                            )
+                        },
+                        Modifier.padding(innerPadding)
                     )
                 }
             }
@@ -31,17 +37,15 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
+fun MyButton(onClick: () -> Unit, modifier: Modifier = Modifier) {
+    Button(onClick = onClick) {
+        Text("Launch Flutter!")
+    }
 }
 
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview() {
     MoviesAndroidTheme {
-        Greeting("Android")
     }
 }
