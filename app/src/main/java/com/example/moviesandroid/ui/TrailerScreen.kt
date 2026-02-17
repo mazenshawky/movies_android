@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.viewinterop.AndroidView
+import androidx.compose.foundation.layout.safeDrawingPadding
 
 /**
  * Displays a YouTube trailer by loading `youtube_relay.html` from assets.
@@ -42,7 +43,8 @@ fun TrailerScreen(
     AndroidView(
         modifier = modifier
             .fillMaxSize()
-            .background(Color.Black),
+            .background(Color.Black)
+            .safeDrawingPadding(),
         factory = { ctx ->
             WebView(ctx).apply {
                 layoutParams = ViewGroup.LayoutParams(
