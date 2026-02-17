@@ -1,51 +1,44 @@
 package com.example.moviesandroid
 
-import io.flutter.embedding.android.FlutterActivity;
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import com.example.moviesandroid.ui.HomeScreen
 import com.example.moviesandroid.ui.theme.MoviesAndroidTheme
+import io.flutter.embedding.android.FlutterActivity
+import io.flutter.embedding.engine.FlutterEngineCache
 
 class MainActivity : ComponentActivity() {
+
+    private var flutterBridge: FlutterBridge? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+
+        // Wire the MethodChannel bridge at the Activity layer
+        FlutterEngineCache.getInstance().get(MoviesApp.ENGINE_ID)?.let { engine ->
+            flutterBridge = FlutterBridge(applicationContext, engine)
+        }
+
         setContent {
             MoviesAndroidTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    MyButton(
-                        onClick = {
-                            startActivity(
-                                FlutterActivity.createDefaultIntent(this)
-                            )
-                        },
-                        Modifier.padding(innerPadding)
-                    )
-                }
+                HomeScreen(
+                    onBrowseMovies = {
+                        startActivity(
+                            FlutterActivity
+                                .withCachedEngine(MoviesApp.ENGINE_ID)
+                                .build(this@MainActivity)
+                        )
+                    }
+                )
             }
         }
     }
-}
 
-@Composable
-fun MyButton(onClick: () -> Unit, modifier: Modifier = Modifier) {
-    Button(onClick = onClick) {
-        Text("Launch Flutter!")
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    MoviesAndroidTheme {
+    override fun onDestroy() {
+        flutterBridge?.dispose()
+        super.onDestroy()
     }
 }

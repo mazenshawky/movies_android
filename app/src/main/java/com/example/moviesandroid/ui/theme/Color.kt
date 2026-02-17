@@ -2,10 +2,10 @@ package com.example.moviesandroid.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-val Purple80 = Color(0xFFD0BCFF)
-val PurpleGrey80 = Color(0xFFCCC2DC)
-val Pink80 = Color(0xFFEFB8C8)
-
-val Purple40 = Color(0xFF6650a4)
-val PurpleGrey40 = Color(0xFF625b71)
-val Pink40 = Color(0xFF7D5260)
+// Cinema dark palette — matches iOS app colors
+val DarkBackground = Color(0xFF1F1F1F)
+val DarkSurface = Color(0xFF262626)
+val OrangeAccent = Color(0xFFFF6633)
+val OrangeAccentLight = Color(0xFFFF9966)
+val TextWhite = Color(0xFFFFFFFF)
+val TextGrey = Color(0xFFB0B0B0)
